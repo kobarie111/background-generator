@@ -22,9 +22,10 @@
 
     <div class="container">
         <div class="left-column">
-            <canvas id="previewCanvas" width="1920" height="1080"></canvas>
-            <p id="caption">背景1</p>
-            <div class="download"><button type="button" id="downloadButton">ダウンロード</button></div>
+            <div class="preview-img">
+                <canvas id="previewCanvas" width="1920" height="1080"></canvas>
+                <p id="caption">背景1</p>
+            </div>
         </div>
 
         <div class="right-column">
@@ -62,6 +63,8 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="test.js"></script>
+    <div class="download"><button type="button" id="downloadButton"><span class="text">ダウンロード</span></button></div>
+
+    <script type="text/javascript" src="generate.js"></script>
 </body>
 </html>

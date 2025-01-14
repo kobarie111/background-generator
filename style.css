@@ -5,9 +5,9 @@ ul, li {
 
 /* layout */
 html {
-    height: 100%;
+    scroll-behavior: smooth;
 }
-body {
+html, body {
     height: 100%;
 }
 
@@ -20,6 +20,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
 }
 header img.logo-gv {
     width: 225px;
@@ -38,48 +42,76 @@ header p {
     width: 100%;
     height: 100%;
     display: flex;
+    margin-top: 64px;
 }
 
 /* 左カラム */
 .left-column {
     width: 75%;
-/*    min-width: 960px;*/
+    height: 100%;
     background-color: #fafafa;
+}
+.left-column .preview-img {
+    width: 100%;
+    height: auto;
     padding: 32px 32px 16px 32px;
 }
 .left-column canvas {
-    position: relative;
     width: 100%;
     box-shadow: 20px 18px 48px 0 rgba(5, 3, 27, 0.14);
     z-index: 10;
+    transition: opacity 0.5s ease-in-out; /* アニメーションの追加 */
+    opacity: 1; /* 初期状態 */
+}
+.left-column canvas.fade-out {
+    opacity: 0.5; /* フェードアウト状態  */
 }
 .left-column p {
     font-size: 12px;
     color: #172051;
 }
-.download {
-    position: relative;
-    width: 100%;
-    height: 80px;
-    margin-top: 12px;
-    background: #ffffff;
-    padding: 12px 0;
-    z-index: 20;
-    text-align: center;
-}
-.download button {
-    width: 280px;
-    height: 56px;
-    background: #172051;
-    color: #ffffff;
-    border-radius: 4px;
-}
+
+/* フェードアウト */
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards;
+  }
+  
+  /* フェードイン */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+
+  /* フェードアウトアニメーション */
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  
+  /* フェードインアニメーション */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+      animation-timing-function: ease-in-out;
+    }
+  }
 
 /* 右カラム */
 .right-column {
     width: 25%;
+    height: 100%;
     background: #EEF2FA;
-    padding: 24px;
+    padding: 24px 24px 96px 24px;
+    /* box-sizing: border-box; */
+    overflow-y: auto;
 }
 .right-column dd, .thumbnails {
     color: #172051;
@@ -128,3 +160,56 @@ header p {
     height: fit-content;
     box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.06);
 }
+.right-column li img:hover {
+    border: 1px solid #C6D1F2;
+}
+
+/* ダウンロード */
+.download {
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    bottom: 0;
+    left: 0;
+    margin-top: 12px;
+    background: #ffffff;
+    padding: 12px 0;
+    z-index: 20;
+    text-align: center;
+    box-shadow: 0 -4px 12px 4px rgba(0,0,0,0.04);
+}
+.download button {
+    width: 280px;
+    height: 56px;
+    /* background: #172051; */
+    color: #172051;
+    border-radius: 4px;
+    background-color: #fff;
+    position: relative;
+    border: 1px solid #172051;
+    transition: color 0.5s ease;
+  }
+  .download button:hover {
+    color: #fff;
+  }
+  .download button:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .download button::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #172051;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: all 0.5s ease;
+    transition-property: transform;
+  }
+  .text {
+    position: relative;
+  }

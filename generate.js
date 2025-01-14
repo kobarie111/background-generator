@@ -3,8 +3,8 @@ const images = {
   "bg1.jpg": { src: "img/zoombg_posi_1_integlity.png", caption: "GROWTH VERSE VALUE │ INTEGRITY [White]" },
   "bg2.jpg": { src: "img/zoombg_posi_2_deepdive.png", caption: "GROWTH VERSE VALUE │ DEEP DIVE [White]" },
   "bg3.jpg": { src: "img/zoombg_posi_3_ours.png", caption: "GROWTH VERSE VALUE │ OURS [White]" },
-  "bg4.jpg": { src: "img/zoombg_posi_4_wildspeed.png", caption: "GROWTH VERSE VALUE │ OURS [White]" },
-  "bg5.jpg": { src: "img/zoombg_posi_5_lastmanship.png", caption: "GROWTH VERSE VALUE │ OURS [White]" },
+  "bg4.jpg": { src: "img/zoombg_posi_4_wildspeed.png", caption: "GROWTH VERSE VALUE │ WILD SPEED [White]" },
+  "bg5.jpg": { src: "img/zoombg_posi_5_lastmanship.png", caption: "GROWTH VERSE VALUE │ LASTMANSHIP [White]" },
   "bg6.jpg": { src: "img/zoombg_nega_1_integlity.png", caption: "GROWTH VERSE VALUE │ INTEGRITY [Navy]" },
   "bg7.jpg": { src: "img/zoombg_nega_2_deepdive.png", caption: "GROWTH VERSE VALUE │ DEEP DIVE [Navy]" },
   "bg8.jpg": { src: "img/zoombg_nega_3_ours.png", caption: "GROWTH VERSE VALUE │ OURS [Navy]" },
@@ -14,6 +14,8 @@ const images = {
 
 // 要素の取得
 const canvas = document.getElementById("previewCanvas");
+const caption = document.getElementById("caption");
+const thumbnails = document.querySelectorAll(".thumbnail");
 const ctx = canvas.getContext("2d");
 const firstNameInput = document.getElementById("firstNameInput");
 const lastNameInput = document.getElementById("lastNameInput");
@@ -61,8 +63,11 @@ function drawPreview() {
         const dept = deptInput.value;
         const title = titleInput.value;
 
+        // 背景画像のキーに応じて文字色を変更
+        const darkBackgrounds = ["bg6.jpg", "bg7.jpg", "bg8.jpg", "bg9.jpg", "bg10.jpg"];
+        ctx.fillStyle = darkBackgrounds.includes(currentBackground) ? "#FFFFFF" : "#172051";
+
         ctx.font = "600 64px 'Noto Sans JP', sans-serif";
-        ctx.fillStyle = "#172051";
         ctx.textAlign = "left";
 
         const letterSpacing = 6; // 文字間を開けるためのスペース
@@ -87,18 +92,18 @@ function drawPreview() {
          ctx.font = "400 28px 'Inter', sans-serif";
 
         // 苗字ヨミガナ（fnamealphabet）
-        let xPositon2 = 80; // 描画開始位置
+        let xPosition2 = 80; // 描画開始位置
         for (let i = 0; i < fnamealphabet.length; i++) {
-            ctx.fillText(fnamealphabet[i], xPositon2, 190);
-            xPositon2 += ctx.measureText(fnamealphabet[i]).width + letterSpacing;
+            ctx.fillText(fnamealphabet[i], xPosition2, 190);
+            xPosition2 += ctx.measureText(fnamealphabet[i]).width + letterSpacing;
         }
 
-        xPositon2 += nameGap;
+        xPosition2 += nameGap;
 
         //名前ヨミガナ（lnamealphabet）
         for (let i = 0; i < lnamealphabet.length; i++) {
-          ctx.fillText(lnamealphabet[i], xPositon2 , 190);
-          xPositon2 += ctx.measureText(lnamealphabet[i]).width + letterSpacing;
+          ctx.fillText(lnamealphabet[i], xPosition2 , 190);
+          xPosition2 += ctx.measureText(lnamealphabet[i]).width + letterSpacing;
         } 
 
         ctx.font = "700 32px 'Inter', sans-serif";
@@ -126,6 +131,7 @@ function drawPreview() {
     };
 }
 
+/*
 // サムネイルをクリックしたときに背景を切り替える処理
 thumbnailContainer.addEventListener("click", (event) => {
     const target = event.target;
@@ -135,6 +141,56 @@ thumbnailContainer.addEventListener("click", (event) => {
       drawPreview();
     }
   });
+  */
+
+// サムネイルをクリックしたときの処理
+thumbnails.forEach((thumbnail) => {
+  thumbnail.addEventListener("click", () => {
+    currentBackground = thumbnail.dataset.bg; // 現在の背景を更新
+
+    // フェードアウト開始
+    canvas.classList.add("fade-out");
+
+    // アニメーションが終わるタイミングで背景画像とテキストを描画
+    setTimeout(() => {
+      drawPreview(); // 背景画像とテキストを描画
+      // フェードインを戻す
+      canvas.classList.remove("fade-out");
+    }, 500); // CSSの`transition`時間（0.5秒）と一致
+  });
+});
+
+/*
+// サムネイルをクリックしたときの処理
+thumbnails.forEach((thumbnail) => {
+  thumbnail.addEventListener("click", () => {
+    currentBackground = thumbnail.dataset.bg; // 現在の背景を更新
+    drawPreview(); // 新しい背景を描画
+    const bgKey = thumbnail.dataset.bg;
+    const newImage = images[bgKey];
+  
+    
+    // フェードアウト開始
+    canvas.classList.add("fade-out");
+    
+    // アニメーションが終わるタイミングで画像を変更
+    setTimeout(() => {
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.src = newImage.src;
+      
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      
+      caption.textContent = newImage.caption;
+      // フェードインを戻す
+      canvas.classList.remove("fade-out");
+    }, 500); // CSSの`transition`時間（0.5秒）と一致
+  });
+});
+*/
 
 // ダウンロード機能
 downloadButton.addEventListener("click", () => {
