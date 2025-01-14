@@ -140,6 +140,11 @@ header p {
     border-radius: 4px;
     font-size: 14px;
 }
+
+.right-column dt input[type="text"]:focus {
+    border: 1px solid #C6D1F2;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 枠線の周りに青いぼかしを追加 */
+}
 .right-column dt.two-col input {
     width: 48%;
 }
