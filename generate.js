@@ -204,9 +204,11 @@ downloadButton.addEventListener("click", () => {
       alert("画像のダウンロードに失敗しました。コンソールをご確認ください。");
     }
   });
-  
+ 
+/*
 // イベントリスナーを追加
 downloadButton.addEventListener("click", downloadImage);
+*/
 
 // 初期描画
 drawPreview();
